@@ -234,8 +234,16 @@ export class Backport {
         }
 
         try {
-          const branchname = `backport-${pull_number}-to-${target}`;
 
+          const versionNum = `${target}`.split('/').pop() || '';
+          let branchname;
+
+          if (versionNum === '') {
+              branchname = `wi/backport-${pull_number}`;
+          } else {
+              branchname = `wi/${versionNum}/backport-${pull_number}`;
+          }
+          
           console.log(`Start backport to ${branchname}`);
           try {
             await this.git.checkout(
